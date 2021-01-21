@@ -290,6 +290,10 @@ int CSPG_win_allocate(int user_local_root, int user_nprocs)
         if (mpi_errno != MPI_SUCCESS)
             goto fn_fail;
 
+        if(win->base == NULL && user_bases[dst]){
+            win->base = user_bases[dst];
+        }
+
         PMPI_Get_address(user_bases[dst], &win->user_base_addrs_in_local[dst]);
         CSPG_DBG_PRINT("   shared base[%d]=%p, addr 0x%lx, offset 0x%lx"
                        ", r_size %ld, r_unit %d\n", dst, user_bases[dst],
@@ -302,11 +306,6 @@ int CSPG_win_allocate(int user_local_root, int user_nprocs)
 
     /* All ghosts create window starting from the baseptr of ghost 0, so users
      * can use the same offset for all ghosts*/
-
-    /* FIXME: if size=0 and ghost rank > 0, base may be returned as 0x0.
-     * Is it implementation specific ? What is the uniform solution ?
-     * It is not wrong that simply use base[0] for creating window, because it is accessible. */
-    win->base = user_bases[0];
 
     /* Create ug windows including all User and Ghost processes.
      * Every User process has a window used for permission check and accessing Ghosts.
