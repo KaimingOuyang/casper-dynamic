@@ -185,7 +185,7 @@ int MPI_Accumulate(const void *origin_addr, int origin_count,
 
     CSP_fetch_ug_win_from_cache(win, ug_win);
 
-    if (ug_win) {
+    if (ug_win && armci_async_config_flag != 2) {
         /* casper window */
         mpi_errno = CSP_accumulate_impl(origin_addr, origin_count,
                                         origin_datatype, target_rank, target_disp, target_count,
