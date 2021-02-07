@@ -202,6 +202,10 @@ int MPI_Win_flush_all(MPI_Win win)
     }
 #endif
 
+    PMPI_Win_flush_all(win);
+    if (mpi_errno != MPI_SUCCESS)
+        goto fn_fail;
+        
   fn_exit:
     CSP_FUNC_PROFILE_TIMING_END(MPI_WIN_FLUSH_MAIN);
     CSP_MPI_FUNC_END_ROUTINE();
