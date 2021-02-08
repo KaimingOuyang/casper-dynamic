@@ -206,6 +206,10 @@ int MPI_Win_complete(MPI_Win win)
         ug_win->epoch_stat = CSP_WIN_NO_EPOCH;
     }
 
+    mpi_errno = PMPI_Win_complete(win);
+    if (mpi_errno != MPI_SUCCESS)
+        goto fn_fail;
+
     CSP_DBG_PRINT("Complete done\n");
 
   fn_exit:

@@ -226,6 +226,10 @@ int MPI_Win_lock_all(int assert, MPI_Win win)
     }
 #endif
 
+    mpi_errno = PMPI_Win_lock_all(assert, win);
+    if (mpi_errno != MPI_SUCCESS)
+            goto fn_fail;
+
     /* Indicate epoch status.
      * Later operations will be redirected to single window.*/
     ug_win->epoch_stat = CSP_WIN_EPOCH_LOCK_ALL;

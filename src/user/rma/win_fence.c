@@ -120,6 +120,10 @@ int MPI_Win_fence(int assert, MPI_Win win)
     ug_win->is_self_locked = 1;
 #endif
 
+    mpi_errno = PMPI_Win_fence(assert, win);
+    if (mpi_errno != MPI_SUCCESS)
+            goto fn_fail;
+            
   fn_exit:
     CSP_MPI_FUNC_END_ROUTINE();
     return mpi_errno;

@@ -176,6 +176,10 @@ int MPI_Win_unlock_all(MPI_Win win)
     }
     ug_win->epoch_stat = CSP_WIN_NO_EPOCH;
 
+    mpi_errno = PMPI_Win_unlock_all(win);
+    if (mpi_errno != MPI_SUCCESS)
+        goto fn_fail;
+
   fn_exit:
     CSP_MPI_FUNC_END_ROUTINE();
     return mpi_errno;
